@@ -4,6 +4,7 @@ import FuelTypeCard from "./FuelTypeCard";
 import PrimaryButton from "./PrimaryButton";
 import { StationType } from "@/types/StationType";
 import { FuelType } from "@/types/FuelType";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 interface StationLayoutProps {
   station: StationType;
@@ -29,7 +30,7 @@ export default function StationLayout({
   onContinue
 }: StationLayoutProps) {
   return (
-    <View className="flex-1 bg-white">
+    <SafeAreaView className="flex-1 bg-white">
       {/* Station Header Image */}
       <View className="relative">
         <Image
@@ -111,30 +112,30 @@ export default function StationLayout({
           <View className="bg-gray-50 rounded-xl p-4">
             <View className="flex-row justify-between items-center mb-4">
               <Text className="text-gray-600">Price per liter</Text>
-              <Text className="text-gray-900 font-semibold">${selectedFuelType.price.toFixed(2)}</Text>
+              <Text className="text-gray-900 font-semibold">Tshs{selectedFuelType.price.toFixed(2)}</Text>
             </View>
 
             <View className="flex-row justify-between">
-              <View className="bg-white p-3 rounded-xl shadow-sm flex-1 mr-4 items-center">
+              <View className="bg-white p-3 rounded-xl shadow-slate-950 shadow-md flex-1 mr-4 items-center">
                 <Text className="text-gray-600 mb-1">By Amount</Text>
                 <TextInput
                   value={amount}
                   onChangeText={onAmountChange}
                   keyboardType="numeric"
-                  placeholder="$0.00"
-                  className="text-xl font-bold text-gray-900 w-full text-center"
+                  placeholder="Tshs0.00"
+                  className="text-xl font-bold text-gray-950 w-full text-center"
                   placeholderTextColor="#94A3B8"
                 />
               </View>
 
-              <View className="bg-white p-3 rounded-xl shadow-sm flex-1 items-center">
+              <View className="bg-white p-3 rounded-xl shadow-slate-900 shadow-md flex-1 items-center">
                 <Text className="text-gray-600 mb-1">By Quantity</Text>
                 <TextInput
                   value={quantity}
                   onChangeText={onQuantityChange}
                   keyboardType="numeric"
                   placeholder="0.00L"
-                  className="text-xl font-bold text-gray-900 w-full text-center"
+                  className="text-xl font-bold text-gray-950 w-full text-center"
                   placeholderTextColor="#94A3B8"
                 />
               </View>
@@ -148,6 +149,6 @@ export default function StationLayout({
           onPress={onContinue}
         />
       </View>
-    </View>
+    </SafeAreaView>
   );
 }

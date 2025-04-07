@@ -125,7 +125,10 @@ export default function HomeScreen() {
                             <StationCard
                                 key={station.id}
                                 {...station}
-                                onPress={() => router.push('/station/[id]',)}
+                                onPress={() => router.push({
+                                    pathname: '/station',
+                                    params: { station: JSON.stringify(station) },
+                                })}
                             />
                         ))}
                     </View>

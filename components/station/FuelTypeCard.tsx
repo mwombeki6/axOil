@@ -37,7 +37,7 @@ export default function FuelTypeCard({
         <Text className="ml-2 font-medium text-gray-800">{type}</Text>
       </View>
       <Text className="text-lg font-bold text-gray-900">
-        ${price.toFixed(2)}
+        Tshs{price.toFixed(2)}/L
       </Text>
     </TouchableOpacity>
   );

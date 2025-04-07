@@ -1,21 +1,32 @@
 import { Stack } from 'expo-router';
-import { TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity, Text } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from 'expo-router';
 
 export default function StationLayout() {
   const navigation = useNavigation();
-  
+
   return (
     <Stack>
       <Stack.Screen
-        name="[slug]"
+        name="index"
         options={{
           headerShown: true,
-          headerTitle: 'Station Details',
+          headerTitle: () => (
+            <Text style={{
+              color: '#1E293B',
+              fontSize: 24,  //
+              fontWeight: '700',
+              fontFamily: 'Inter_600SemiBold',
+              letterSpacing: 0.5
+            }}>
+              Fuel Station
+            </Text>
+          ),
+          //headerTitle: 'Station Details',
           headerTitleAlign: 'center',
           headerLeft: () => (
-            <TouchableOpacity 
+            <TouchableOpacity
               onPress={() => navigation.goBack()}
               style={{ marginLeft: 15 }}
             >
