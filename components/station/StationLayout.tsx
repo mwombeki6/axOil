@@ -36,7 +36,7 @@ export default function StationLayout({
         <Image
           source={station.image}
           className="w-full h-64"
-          resizeMode="cover"
+          resizeMode="stretch"
         />
         <TouchableOpacity
           className="absolute top-12 left-4 p-2 rounded-full bg-white/90 shadow-md"
