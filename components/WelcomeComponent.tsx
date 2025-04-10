@@ -61,11 +61,11 @@ const WelcomeScreen: React.FC = () => {
 
         {!loading && (
           <View className="mt-12">
-            <PrimaryButton title="Get Started" onPress={() => router.push('/auth/phone')} />
+            <PrimaryButton title="Get Started" onPress={() => router.push('..')} />
             <SecondaryButton
               title="Learn More"
               onPress={() => {}}
-              icon={<Feather name="info" size={18} color={COLORS.primary} />}
+              //icon={<Feather name="info" size={18} color={COLORS.primary} />}
               style={{ marginTop: 12 }}
             />
           </View>
