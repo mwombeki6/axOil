@@ -1,76 +1,135 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, Image, StatusBar, SafeAreaView } from 'react-native';
-import { useRouter } from 'expo-router';
-import LottieView from 'lottie-react-native';
-import { Feather } from '@expo/vector-icons';
-import { Skeleton } from 'moti/skeleton';
+import React, { useState, useEffect } from 'react';
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  SafeAreaView,
+  Animated,
+  StatusBar,
+} from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
+import FeatureCard from '../components/FeatureCard';
 
-import { COLORS } from '@/constants/theme';
-import PrimaryButton from '@/components/station/PrimaryButton';
-import SecondaryButton from '@/components/station/SecondaryButton';
+// Placeholder for where you would import your actual assets
+const FUEL_LOGO = require('../assets/images/react-logo.png');
+const GAS_STATION_ICON = require('../assets/station1.png');
+const ROUTE_ICON = require('../assets/images/splash-icon.png');
+const SAVINGS_ICON = require('../assets/images/react-logo.png');
 
 const WelcomeScreen: React.FC = () => {
-  const router = useRouter();
-  const [loading, setLoading] = useState(true);
+  const logoAnimation = useState(new Animated.Value(0))[0];
+  const titleAnimation = useState(new Animated.Value(0))[0];
 
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 2000);
-    return () => clearTimeout(timer);
+    // Animate logo
+    Animated.timing(logoAnimation, {
+      toValue: 1,
+      duration: 1200,
+      useNativeDriver: true,
+    }).start();
+
+    // Animate title
+    Animated.timing(titleAnimation, {
+      toValue: 1,
+      duration: 1000,
+      delay: 400,
+      useNativeDriver: true,
+    }).start();
   }, []);
 
+  const logoScale = logoAnimation.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0.8, 1],
+  });
+
+  const logoOpacity = logoAnimation.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0, 1],
+  });
+
+  const titleTranslateY = titleAnimation.interpolate({
+    inputRange: [0, 1],
+    outputRange: [20, 0],
+  });
+
+  const titleOpacity = titleAnimation.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0, 1],
+  });
+
   return (
-    <SafeAreaView className="flex-1 bg-white">
-      <StatusBar barStyle="dark-content" />
-      <View className="flex-1 justify-center px-6">
-        <Skeleton show={loading} height={96} width={96} radius="round" colorMode="light">
-          {loading ? null : (
-            <Image
-              source={require('@/assets/logo.png')}
-              className="h-24 w-24 self-center mb-8"
-              resizeMode="contain"
-            />
-          )}
-        </Skeleton>
+    <SafeAreaView className="flex-1">
+      <StatusBar barStyle="light-content" />
+      <LinearGradient
+        colors={['#1e3c72', '#2a5298']}
+        className="flex-1 px-6 pt-5 pb-10"
+      >
+        <View className="items-center mt-10 mb-10">
+          <Animated.Image
+            source={FUEL_LOGO}
+            className="w-32 h-32 mb-5"
+            style={{
+              opacity: logoOpacity,
+              transform: [{ scale: logoScale }],
+            }}
+          />
+          <Animated.Text
+            className="text-4xl font-bold text-white mb-2"
+            style={{
+              opacity: titleOpacity,
+              transform: [{ translateY: titleTranslateY }],
+            }}
+          >
+            FuelFinder
+          </Animated.Text>
+          <Animated.Text
+            className="text-base text-indigo-100 text-center"
+            style={{
+              opacity: titleOpacity,
+              transform: [{ translateY: titleTranslateY }],
+            }}
+          >
+            Find the best fuel prices near you
+          </Animated.Text>
+        </View>
 
-        <Skeleton show={loading} height={32} width="80%" radius={8} colorMode="light">
-          {loading ? null : (
-            <Text className="text-4xl font-bold text-center text-gray-800 mb-3">
-              FuelGo
-            </Text>
-          )}
-        </Skeleton>
+        <View className="my-5">
+          <FeatureCard
+            icon={GAS_STATION_ICON}
+            title="Locate Stations"
+            description="Find gas stations nearby with real-time fuel prices"
+            delay={800}
+          />
+          <FeatureCard
+            icon={ROUTE_ICON}
+            title="Optimal Routes"
+            description="Get directions to the most economical fuel station"
+            delay={1000}
+          />
+          <FeatureCard
+            icon={SAVINGS_ICON}
+            title="Save Money"
+            description="Track spending and save on every fill-up"
+            delay={1200}
+          />
+        </View>
 
-        <Skeleton show={loading} height={24} width="90%" radius={6} colorMode="light">
-          {loading ? null : (
-            <Text className="text-gray-500 text-center text-lg mb-10">
-              Purchase fuel in advance, skip the lines
-            </Text>
-          )}
-        </Skeleton>
-
-        <Skeleton show={loading} height={250} width="100%" radius={12} colorMode="light">
-          {loading ? null : (
-            <LottieView
-              source={require('@/assets/fuel-animation.json')}
-              autoPlay
-              loop
-              style={{ height: 250, alignSelf: 'center' }}
-            />
-          )}
-        </Skeleton>
-
-        {!loading && (
-          <View className="mt-12">
-            <PrimaryButton title="Get Started" onPress={() => router.push('..')} />
-            <SecondaryButton
-              title="Learn More"
-              onPress={() => {}}
-              //icon={<Feather name="info" size={18} color={COLORS.primary} />}
-              style={{ marginTop: 12 }}
-            />
-          </View>
-        )}
-      </View>
+        <View className="mt-auto">
+          <TouchableOpacity 
+            className="bg-orange-500 rounded-full py-4 items-center mb-4 shadow"
+            activeOpacity={0.8}
+          >
+            <Text className="text-white text-lg font-bold">Get Started</Text>
+          </TouchableOpacity>
+          <TouchableOpacity 
+            className="border-2 border-white rounded-full py-4 items-center"
+            activeOpacity={0.8}
+          >
+            <Text className="text-white text-lg font-bold">Sign In</Text>
+          </TouchableOpacity>
+        </View>
+      </LinearGradient>
     </SafeAreaView>
   );
 };
