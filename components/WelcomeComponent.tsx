@@ -1,30 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import {
-  View,
-  Text,
-  Image,
-  StatusBar,
-  SafeAreaView,
-  TouchableOpacity,
-} from 'react-native';
+import { View, Text, Image, StatusBar, SafeAreaView } from 'react-native';
+import { useRouter } from 'expo-router';
 import LottieView from 'lottie-react-native';
 import { Feather } from '@expo/vector-icons';
-import { COLORS } from '@/constants/theme';
-import PrimaryButton from '@/components/shared/PrimaryButton';
-import SecondaryButton from '@/components/shared/SecondaryButton';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from '@/types/navigation';
 import { Skeleton } from 'moti/skeleton';
 
-type WelcomeScreenProps = {
-  navigation: StackNavigationProp<RootStackParamList, 'Welcome'>;
-};
+import { COLORS } from '@/constants/theme';
+import PrimaryButton from '@/components/station/PrimaryButton';
+import SecondaryButton from '@/components/station/SecondaryButton';
 
-const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ navigation }) => {
+const WelcomeScreen: React.FC = () => {
+  const router = useRouter();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 2000); // Simulate 2s load
+    const timer = setTimeout(() => setLoading(false), 2000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -33,7 +23,7 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ navigation }) => {
       <StatusBar barStyle="dark-content" />
       <View className="flex-1 justify-center px-6">
         <Skeleton show={loading} height={96} width={96} radius="round" colorMode="light">
-          {!loading && (
+          {loading ? null : (
             <Image
               source={require('@/assets/logo.png')}
               className="h-24 w-24 self-center mb-8"
@@ -42,16 +32,16 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ navigation }) => {
           )}
         </Skeleton>
 
-        <Skeleton show={loading} height={32} width="80%" colorMode="light" radius={8}>
-          {!loading && (
+        <Skeleton show={loading} height={32} width="80%" radius={8} colorMode="light">
+          {loading ? null : (
             <Text className="text-4xl font-bold text-center text-gray-800 mb-3">
               FuelGo
             </Text>
           )}
         </Skeleton>
 
-        <Skeleton show={loading} height={24} width="90%" colorMode="light" radius={6}>
-          {!loading && (
+        <Skeleton show={loading} height={24} width="90%" radius={6} colorMode="light">
+          {loading ? null : (
             <Text className="text-gray-500 text-center text-lg mb-10">
               Purchase fuel in advance, skip the lines
             </Text>
@@ -59,7 +49,7 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ navigation }) => {
         </Skeleton>
 
         <Skeleton show={loading} height={250} width="100%" radius={12} colorMode="light">
-          {!loading && (
+          {loading ? null : (
             <LottieView
               source={require('@/assets/fuel-animation.json')}
               autoPlay
@@ -71,10 +61,7 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ navigation }) => {
 
         {!loading && (
           <View className="mt-12">
-            <PrimaryButton
-              title="Get Started"
-              onPress={() => navigation.navigate('PhoneAuth')}
-            />
+            <PrimaryButton title="Get Started" onPress={() => router.push('/auth/phone')} />
             <SecondaryButton
               title="Learn More"
               onPress={() => {}}
